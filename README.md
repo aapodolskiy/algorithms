@@ -1,10 +1,17 @@
 # Introduction to Algorithms
 
-## this is a course corresponding to this book by Thomas H. Cormen
+this is a course corresponding to the book by Thomas H. Cormen
 
 ---
 
-## 1. Foundations.
+## Table of contents
 
-### 2 Getting Started 
+* 1. Foundations.
+  * <a name="chapter2">2 Getting Started</a> 
+
+
+## What was the work done
+
+[link](#chapter2) added smth
+
 
