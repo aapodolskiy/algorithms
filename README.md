@@ -10,22 +10,22 @@ by Thomas H. Cormen
 With links to exercises.
 
 I Foundations  
-  &nbsp;&nbsp;1 The Role of Algorithms in Computing  
-    &nbsp;&nbsp;&nbsp;&nbsp;1.1 Algorithms  
-    &nbsp;&nbsp;&nbsp;&nbsp;1.2 Algorithms as a technology  
-  &nbsp;&nbsp;2 Getting Started  
-    &nbsp;&nbsp;&nbsp;&nbsp;2.1 [Insertion sort](https://github.com/aapodolskiy/algorithms/tree/master/Exercises/2/2.1)  
-    &nbsp;&nbsp;&nbsp;&nbsp;2.2 Analyzing algorithms  
-    &nbsp;&nbsp;&nbsp;&nbsp;2.3 Designing algorithms  
-  &nbsp;&nbsp;3 Growth of Functions  
-    &nbsp;&nbsp;&nbsp;&nbsp;3.1 Asymptotic notation  
-    &nbsp;&nbsp;&nbsp;&nbsp;3.2 Standard notations and common functions  
-  &nbsp;&nbsp;4 Divide-and-Conquer  
-    &nbsp;&nbsp;&nbsp;&nbsp;4.1 The maximum-subarray problem  
-    &nbsp;&nbsp;&nbsp;&nbsp;4.2 Strassen's algorithm for matrix multiplication  
-    &nbsp;&nbsp;&nbsp;&nbsp;4.3 The substitution method for solving recurrences  
-    &nbsp;&nbsp;&nbsp;&nbsp;4.4 I have not read yet...  
-  &nbsp;&nbsp;5 Probabilistic Analysis and Randomized Algorithms
+  &nbsp;&nbsp;&nbsp;&nbsp;1 The Role of Algorithms in Computing  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1 Algorithms  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.2 Algorithms as a technology  
+  &nbsp;&nbsp;&nbsp;&nbsp;2 Getting Started  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.1 [Insertion sort](https://github.com/aapodolskiy/algorithms/tree/master/Exercises/2/2.1)  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2 Analyzing algorithms  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.3 Designing algorithms  
+  &nbsp;&nbsp;&nbsp;&nbsp;3 Growth of Functions  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.1 Asymptotic notation  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.2 Standard notations and common functions  
+  &nbsp;&nbsp;&nbsp;&nbsp;4 Divide-and-Conquer  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.1 The maximum-subarray problem  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.2 Strassen's algorithm for matrix multiplication  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.3 The substitution method for solving recurrences  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.4 I have not read yet...  
+  &nbsp;&nbsp;&nbsp;&nbsp;5 Probabilistic Analysis and Randomized Algorithms
 II Sorting and Order Statistics
   * 6 Heapsort
   * 7 Quicksort
