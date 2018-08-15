@@ -1,17 +1,31 @@
 # Introduction to Algorithms
 
-this is a course corresponding to the book by Thomas H. Cormen
+This is a course corresponding to the [book](https://github.com/aapodolskiy/algorithms/blob/master/introduction-to-algorithms-cormen-3rd-edition-pdf.pdf) 
+by Thomas H. Cormen
 
 ---
 
 ## Table of contents
 
+With links to exercises.
+
 * I Foundations
-  * 1 The Role of Algorithms in Computing
-  * 2 [Getting Started](#chapter2) 
-  * 3 Growth of Function
-  * 4 Divide-and-Conquer
-  * 5 Probabilistic Analysis and Randomized Algorithms
+  1. The Role of Algorithms in Computing
+    1.1. Algorithms
+    1.2. Algorithms as a technology
+  2. Getting Started
+    2.1. [Insertion sort](https://github.com/aapodolskiy/algorithms/tree/master/Sort/insertionSort)
+    2.2. Analyzing algorithms
+    2.3. Designing algorithms
+  3. Growth of Functions
+    3.1. Asymptotic notation
+    3.2. Standard notations and common functions
+  4. Divide-and-Conquer
+    4.1. The maximum-subarray problem
+    4.2. Strassen's algorithm for matrix multiplication
+    4.3. The substitution method for solving recurrences
+    4.4. I have not read yet...
+  5. Probabilistic Analysis and Randomized Algorithms
 * II Sorting and Order Statistics
   * 6 Heapsort
   * 7 Quicksort
