@@ -38,7 +38,7 @@ void insertionSort(std::vector<int> &v) {
     k = v[j];
 
     int i = j - 1;
-    while (i >= 0 && v[i] > k) {
+    while (i >= 0 && v[i] < k) {
       v[i+1] = v[i];
       i--;
     }

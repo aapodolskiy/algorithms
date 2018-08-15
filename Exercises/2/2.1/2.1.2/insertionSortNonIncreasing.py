@@ -10,7 +10,7 @@ def insertionSort(a):
   for j in range(1, len(a)):
     k = a[j]
     i = j - 1
-    while a[i] > k and i>=0:
+    while a[i] < k and i>=0:
       a[i+1] = a[i]
       i -= 1
     a[i+1] = k
