@@ -7,27 +7,32 @@ import (
 //////////////////////////////////////////////
 ////////// MyMaxHeap implementation //////////
 
-type MyHeapObject interface{}
+type MyHeapObject string     //interface{}
+const EmptyMyHeapObject = "" //0
 
-type MyMinHeap struct {
-	objectsMap *map[int]MyHeapObject
-	keys       *[]int
-	size       int
+type MyMaxHeap struct {
+	objects *[]MyHeapObject
+	keys    *[]int
+	size    int
 }
 
-func (this *MyMinHeap) Left(i int) int {
+func (this *MyMaxHeap) Left(i int) int {
 	return 2*(i+1) - 1
 }
 
-func (this *MyMinHeap) Right(i int) int {
+func (this *MyMaxHeap) Right(i int) int {
 	return 2 * (i + 1)
 }
 
-func (this *MyMinHeap) Parent(i int) int {
+func (this *MyMaxHeap) Parent(i int) int {
 	return (i+1)/2 - 1
 }
 
-func (this *MyMinHeap) maxHeapify(i int) {
+func swap[T any](a *[]T, i, j int) {
+	(*a)[i], (*a)[j] = (*a)[j], (*a)[i]
+}
+
+func (this *MyMaxHeap) maxHeapify(i int) {
 	l, r := this.Left(i), this.Right(i)
 	largest := i
 	if l < this.size && (*this.keys)[i] < (*this.keys)[l] {
@@ -37,54 +42,65 @@ func (this *MyMinHeap) maxHeapify(i int) {
 		largest = r
 	}
 	if largest != i {
-		(*this.keys)[i], (*this.keys)[largest] = (*this.keys)[largest], (*this.keys)[i]
+		swap(this.keys, i, largest)
+		swap(this.objects, i, largest)
 		this.maxHeapify(largest)
 	}
 }
 
-func MyMaxHeapConstructor() MyMinHeap {
+func MyMaxHeapConstructor() MyMaxHeap {
 	size := 0
 	keys := make([]int, size)
-	objectsMap := make(map[int]MyHeapObject)
-	return MyMinHeap{&objectsMap, &keys, size}
+	objects := make([]MyHeapObject, size)
+	return MyMaxHeap{&objects, &keys, size}
 }
 
-func (this *MyMinHeap) Empty() bool {
+func (this *MyMaxHeap) Empty() bool {
 	return this.size == 0
 }
 
-func (this *MyMinHeap) GetMax() (MyHeapObject, bool) {
+func (this *MyMaxHeap) GetMaxObject() MyHeapObject {
 	if this.Empty() {
-		return nil, false
+		return EmptyMyHeapObject
 	}
-	maxKey := (*this.keys)[0]
-	return (*this.objectsMap)[maxKey], true
+	return (*this.objects)[0]
 }
 
-func (this *MyMinHeap) ExtractMax() (MyHeapObject, bool) {
+func (this *MyMaxHeap) GetMaxKey() int {
 	if this.Empty() {
-		return nil, false
+		return -1
 	}
-	maxKey := (*this.keys)[0]
+	return (*this.keys)[0]
+}
+
+func (this *MyMaxHeap) ExtractMax() MyHeapObject {
+	if this.Empty() {
+		return EmptyMyHeapObject
+	}
+
+	objectWithMaxKey := (*this.objects)[0]
+
 	this.size--
-	(*this.keys)[0] = (*this.keys)[this.size]
+	swap(this.keys, 0, this.size)
+	swap(this.objects, 0, this.size)
 	this.maxHeapify(0)
-	objectWithMaxKey := (*this.objectsMap)[maxKey]
-	delete(*this.objectsMap, maxKey)
-	return objectWithMaxKey, true
+
+	return objectWithMaxKey
 }
 
-func (this *MyMinHeap) Insert(value MyHeapObject, key int) {
+func (this *MyMaxHeap) Insert(object MyHeapObject, key int) {
 	if len(*this.keys) > this.size {
 		(*this.keys)[this.size] = key
+		(*this.objects)[this.size] = object
 	} else {
 		*this.keys = append(*this.keys, key)
+		*this.objects = append(*this.objects, object)
 	}
 	for i := this.size; i > 0 && (*this.keys)[this.Parent(i)] < (*this.keys)[i]; i = this.Parent(i) {
-		(*this.keys)[i], (*this.keys)[this.Parent(i)] = (*this.keys)[this.Parent(i)], (*this.keys)[i]
+		swap(this.keys, i, this.Parent(i))
+		swap(this.objects, i, this.Parent(i))
 	}
 	this.size++
-	(*this.objectsMap)[key] = value
 }
 
 ////////// MyMaxHeap implementation //////////
@@ -93,18 +109,12 @@ func (this *MyMinHeap) Insert(value MyHeapObject, key int) {
 func main() {
 	h := MyMaxHeapConstructor()
 	h.Insert("five", 5)
-	v, ok := h.GetMax()
-	if ok {
-		fmt.Println(v)
-	}
+	fmt.Println(h.GetMaxObject(), h.GetMaxKey())
 	h.ExtractMax()
 	h.Insert("seven", 7)
 	h.Insert("seventeen", 17)
-	h.Insert(-100500, 18)
-	v, ok = h.ExtractMax()
-	if ok {
-		fmt.Println(v)
-	}
+	h.Insert("one more seventeen", 17)
+	fmt.Println(h.ExtractMax())
 	h.Insert("ten", 10)
-	fmt.Println(h.keys, h.objectsMap, h.size)
+	fmt.Println(h.keys, h.objects, h.size)
 }
