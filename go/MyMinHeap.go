@@ -5,7 +5,7 @@ import (
 )
 
 //////////////////////////////////////////////
-////////// MyMaxHeap implementation //////////
+////////// MyMinHeap implementation //////////
 
 type MyHeapObject interface{}
 
@@ -27,22 +27,22 @@ func (this *MyMinHeap) Parent(i int) int {
 	return (i+1)/2 - 1
 }
 
-func (this *MyMinHeap) maxHeapify(i int) {
+func (this *MyMinHeap) minHeapify(i int) {
 	l, r := this.Left(i), this.Right(i)
-	largest := i
-	if l < this.size && (*this.keys)[i] < (*this.keys)[l] {
-		largest = l
+	smallest := i
+	if l < this.size && (*this.keys)[l] < (*this.keys)[i] {
+		smallest = l
 	}
-	if r < this.size && (*this.keys)[largest] < (*this.keys)[r] {
-		largest = r
+	if r < this.size && (*this.keys)[r] < (*this.keys)[i] {
+		smallest = r
 	}
-	if largest != i {
-		(*this.keys)[i], (*this.keys)[largest] = (*this.keys)[largest], (*this.keys)[i]
-		this.maxHeapify(largest)
+	if smallest != i {
+		(*this.keys)[i], (*this.keys)[smallest] = (*this.keys)[smallest], (*this.keys)[i]
+		this.minHeapify(smallest)
 	}
 }
 
-func MyMaxHeapConstructor() MyMinHeap {
+func MyMinHeapConstructor() MyMinHeap {
 	size := 0
 	keys := make([]int, size)
 	objectsMap := make(map[int]MyHeapObject)
@@ -53,25 +53,25 @@ func (this *MyMinHeap) Empty() bool {
 	return this.size == 0
 }
 
-func (this *MyMinHeap) GetMax() (MyHeapObject, bool) {
+func (this *MyMinHeap) GetMin() (MyHeapObject, bool) {
 	if this.Empty() {
 		return nil, false
 	}
-	maxKey := (*this.keys)[0]
-	return (*this.objectsMap)[maxKey], true
+	minKey := (*this.keys)[0]
+	return (*this.objectsMap)[minKey], true
 }
 
-func (this *MyMinHeap) ExtractMax() (MyHeapObject, bool) {
+func (this *MyMinHeap) ExtractMin() (MyHeapObject, bool) {
 	if this.Empty() {
 		return nil, false
 	}
-	maxKey := (*this.keys)[0]
+	minKey := (*this.keys)[0]
 	this.size--
 	(*this.keys)[0] = (*this.keys)[this.size]
-	this.maxHeapify(0)
-	objectWithMaxKey := (*this.objectsMap)[maxKey]
-	delete(*this.objectsMap, maxKey)
-	return objectWithMaxKey, true
+	this.minHeapify(0)
+	objectWithMinKey := (*this.objectsMap)[minKey]
+	delete(*this.objectsMap, minKey)
+	return objectWithMinKey, true
 }
 
 func (this *MyMinHeap) Insert(value MyHeapObject, key int) {
@@ -80,28 +80,28 @@ func (this *MyMinHeap) Insert(value MyHeapObject, key int) {
 	} else {
 		*this.keys = append(*this.keys, key)
 	}
-	for i := this.size; i > 0 && (*this.keys)[this.Parent(i)] < (*this.keys)[i]; i = this.Parent(i) {
+	for i := this.size; i > 0 && (*this.keys)[i] < (*this.keys)[this.Parent(i)]; i = this.Parent(i) {
 		(*this.keys)[i], (*this.keys)[this.Parent(i)] = (*this.keys)[this.Parent(i)], (*this.keys)[i]
 	}
 	this.size++
 	(*this.objectsMap)[key] = value
 }
 
-////////// MyMaxHeap implementation //////////
+////////// MyMinHeap implementation //////////
 //////////////////////////////////////////////
 
 func main() {
-	h := MyMaxHeapConstructor()
+	h := MyMinHeapConstructor()
 	h.Insert("five", 5)
-	v, ok := h.GetMax()
+	v, ok := h.GetMin()
 	if ok {
 		fmt.Println(v)
 	}
-	h.ExtractMax()
+	h.ExtractMin()
 	h.Insert("seven", 7)
 	h.Insert("seventeen", 17)
 	h.Insert(-100500, 18)
-	v, ok = h.ExtractMax()
+	v, ok = h.ExtractMin()
 	if ok {
 		fmt.Println(v)
 	}
