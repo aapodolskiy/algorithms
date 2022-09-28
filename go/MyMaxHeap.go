@@ -35,7 +35,7 @@ func swap[T any](a *[]T, i, j int) {
 func (this *MyMaxHeap) maxHeapify(i int) {
 	l, r := this.Left(i), this.Right(i)
 	largest := i
-	if l < this.size && (*this.keys)[i] < (*this.keys)[l] {
+	if l < this.size && (*this.keys)[largest] < (*this.keys)[l] {
 		largest = l
 	}
 	if r < this.size && (*this.keys)[largest] < (*this.keys)[r] {

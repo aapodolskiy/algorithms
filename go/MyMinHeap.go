@@ -7,12 +7,13 @@ import (
 //////////////////////////////////////////////
 ////////// MyMinHeap implementation //////////
 
-type MyHeapObject interface{}
+type MyHeapObject string     //interface{}
+const EmptyMyHeapObject = "" //0
 
 type MyMinHeap struct {
-	objectsMap *map[int]MyHeapObject
-	keys       *[]int
-	size       int
+	objects *[]MyHeapObject
+	keys    *[]int
+	size    int
 }
 
 func (this *MyMinHeap) Left(i int) int {
@@ -27,17 +28,22 @@ func (this *MyMinHeap) Parent(i int) int {
 	return (i+1)/2 - 1
 }
 
+func swap[T any](a *[]T, i, j int) {
+	(*a)[i], (*a)[j] = (*a)[j], (*a)[i]
+}
+
 func (this *MyMinHeap) minHeapify(i int) {
 	l, r := this.Left(i), this.Right(i)
 	smallest := i
-	if l < this.size && (*this.keys)[l] < (*this.keys)[i] {
+	if l < this.size && (*this.keys)[l] < (*this.keys)[smallest] {
 		smallest = l
 	}
-	if r < this.size && (*this.keys)[r] < (*this.keys)[i] {
+	if r < this.size && (*this.keys)[r] < (*this.keys)[smallest] {
 		smallest = r
 	}
 	if smallest != i {
-		(*this.keys)[i], (*this.keys)[smallest] = (*this.keys)[smallest], (*this.keys)[i]
+		swap(this.keys, i, smallest)
+		swap(this.objects, i, smallest)
 		this.minHeapify(smallest)
 	}
 }
@@ -45,46 +51,56 @@ func (this *MyMinHeap) minHeapify(i int) {
 func MyMinHeapConstructor() MyMinHeap {
 	size := 0
 	keys := make([]int, size)
-	objectsMap := make(map[int]MyHeapObject)
-	return MyMinHeap{&objectsMap, &keys, size}
+	objects := make([]MyHeapObject, size)
+	return MyMinHeap{&objects, &keys, size}
 }
 
 func (this *MyMinHeap) Empty() bool {
 	return this.size == 0
 }
 
-func (this *MyMinHeap) GetMin() (MyHeapObject, bool) {
+func (this *MyMinHeap) GetMinObject() MyHeapObject {
 	if this.Empty() {
-		return nil, false
+		return EmptyMyHeapObject
 	}
-	minKey := (*this.keys)[0]
-	return (*this.objectsMap)[minKey], true
+	return (*this.objects)[0]
 }
 
-func (this *MyMinHeap) ExtractMin() (MyHeapObject, bool) {
+func (this *MyMinHeap) GetMinKey() int {
 	if this.Empty() {
-		return nil, false
+		return -1
 	}
-	minKey := (*this.keys)[0]
+	return (*this.keys)[0]
+}
+
+func (this *MyMinHeap) ExtractMin() MyHeapObject {
+	if this.Empty() {
+		return EmptyMyHeapObject
+	}
+
+	objectWithMinKey := (*this.objects)[0]
+
 	this.size--
-	(*this.keys)[0] = (*this.keys)[this.size]
+	swap(this.keys, 0, this.size)
+	swap(this.objects, 0, this.size)
 	this.minHeapify(0)
-	objectWithMinKey := (*this.objectsMap)[minKey]
-	delete(*this.objectsMap, minKey)
-	return objectWithMinKey, true
+
+	return objectWithMinKey
 }
 
-func (this *MyMinHeap) Insert(value MyHeapObject, key int) {
+func (this *MyMinHeap) Insert(object MyHeapObject, key int) {
 	if len(*this.keys) > this.size {
 		(*this.keys)[this.size] = key
+		(*this.objects)[this.size] = object
 	} else {
 		*this.keys = append(*this.keys, key)
+		*this.objects = append(*this.objects, object)
 	}
 	for i := this.size; i > 0 && (*this.keys)[i] < (*this.keys)[this.Parent(i)]; i = this.Parent(i) {
-		(*this.keys)[i], (*this.keys)[this.Parent(i)] = (*this.keys)[this.Parent(i)], (*this.keys)[i]
+		swap(this.keys, i, this.Parent(i))
+		swap(this.objects, i, this.Parent(i))
 	}
 	this.size++
-	(*this.objectsMap)[key] = value
 }
 
 ////////// MyMinHeap implementation //////////
@@ -93,18 +109,12 @@ func (this *MyMinHeap) Insert(value MyHeapObject, key int) {
 func main() {
 	h := MyMinHeapConstructor()
 	h.Insert("five", 5)
-	v, ok := h.GetMin()
-	if ok {
-		fmt.Println(v)
-	}
+	fmt.Println(h.GetMinObject(), h.GetMinKey())
 	h.ExtractMin()
 	h.Insert("seven", 7)
+	h.Insert("one more seven", 7)
 	h.Insert("seventeen", 17)
-	h.Insert(-100500, 18)
-	v, ok = h.ExtractMin()
-	if ok {
-		fmt.Println(v)
-	}
+	fmt.Println(h.ExtractMin())
 	h.Insert("ten", 10)
-	fmt.Println(h.keys, h.objectsMap, h.size)
+	fmt.Println(h.keys, h.objects, h.size)
 }
