@@ -7,8 +7,8 @@ import (
 //////////////////////////////////////////////
 ////////// MyMaxHeap implementation //////////
 
-type MyHeapObject string     //interface{}
-const EmptyMyHeapObject = "" //0
+type MyHeapObject string //interface{}
+var EmptyMyHeapObject MyHeapObject
 
 type MyMaxHeap struct {
 	objects *[]MyHeapObject
