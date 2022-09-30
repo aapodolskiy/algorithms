@@ -28,8 +28,9 @@ func (this *MyMaxHeap) Parent(i int) int {
 	return (i+1)/2 - 1
 }
 
-func swap[T any](a *[]T, i, j int) {
-	(*a)[i], (*a)[j] = (*a)[j], (*a)[i]
+func (this *MyMaxHeap) swap(i, j int) {
+	(*this.keys)[i], (*this.keys)[j] = (*this.keys)[j], (*this.keys)[i]
+	(*this.objects)[i], (*this.objects)[j] = (*this.objects)[j], (*this.objects)[i]
 }
 
 func (this *MyMaxHeap) maxHeapify(i int) {
@@ -42,8 +43,7 @@ func (this *MyMaxHeap) maxHeapify(i int) {
 		largest = r
 	}
 	if largest != i {
-		swap(this.keys, i, largest)
-		swap(this.objects, i, largest)
+		this.swap(i, largest)
 		this.maxHeapify(largest)
 	}
 }
@@ -81,8 +81,7 @@ func (this *MyMaxHeap) ExtractMax() MyHeapObject {
 	objectWithMaxKey := (*this.objects)[0]
 
 	this.size--
-	swap(this.keys, 0, this.size)
-	swap(this.objects, 0, this.size)
+	this.swap(0, this.size)
 	this.maxHeapify(0)
 
 	return objectWithMaxKey
@@ -97,8 +96,7 @@ func (this *MyMaxHeap) Insert(object MyHeapObject, key int) {
 		*this.objects = append(*this.objects, object)
 	}
 	for i := this.size; i > 0 && (*this.keys)[this.Parent(i)] < (*this.keys)[i]; i = this.Parent(i) {
-		swap(this.keys, i, this.Parent(i))
-		swap(this.objects, i, this.Parent(i))
+		this.swap(i, this.Parent(i))
 	}
 	this.size++
 }

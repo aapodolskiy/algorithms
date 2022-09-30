@@ -28,8 +28,9 @@ func (this *MyMinHeap) Parent(i int) int {
 	return (i+1)/2 - 1
 }
 
-func swap[T any](a *[]T, i, j int) {
-	(*a)[i], (*a)[j] = (*a)[j], (*a)[i]
+func (this *MyMinHeap) swap(i, j int) {
+	(*this.keys)[i], (*this.keys)[j] = (*this.keys)[j], (*this.keys)[i]
+	(*this.objects)[i], (*this.objects)[j] = (*this.objects)[j], (*this.objects)[i]
 }
 
 func (this *MyMinHeap) minHeapify(i int) {
@@ -42,8 +43,7 @@ func (this *MyMinHeap) minHeapify(i int) {
 		smallest = r
 	}
 	if smallest != i {
-		swap(this.keys, i, smallest)
-		swap(this.objects, i, smallest)
+		this.swap(i, smallest)
 		this.minHeapify(smallest)
 	}
 }
@@ -81,8 +81,7 @@ func (this *MyMinHeap) ExtractMin() MyHeapObject {
 	objectWithMinKey := (*this.objects)[0]
 
 	this.size--
-	swap(this.keys, 0, this.size)
-	swap(this.objects, 0, this.size)
+	this.swap(0, this.size)
 	this.minHeapify(0)
 
 	return objectWithMinKey
@@ -97,8 +96,7 @@ func (this *MyMinHeap) Insert(object MyHeapObject, key int) {
 		*this.objects = append(*this.objects, object)
 	}
 	for i := this.size; i > 0 && (*this.keys)[i] < (*this.keys)[this.Parent(i)]; i = this.Parent(i) {
-		swap(this.keys, i, this.Parent(i))
-		swap(this.objects, i, this.Parent(i))
+		this.swap(i, this.Parent(i))
 	}
 	this.size++
 }
