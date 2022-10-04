@@ -4,15 +4,18 @@ import "fmt"
 
 ///////////////////////////////
 
-func greaterOrEqualPowerOfTwo(n int) (p int) {
-	for p = 1; p < n; p <<= 1 {
+func greaterOrEqualPowerOfTwo(n int) int {
+	p := 1
+	for p < n {
+		p <<= 1
 	}
-	return
+	return p
 }
 
 type SegmentTree struct {
 	n            int    // number of segment borders
 	data         *[]int // ST values
+	lazy         *[]int // for lazy propagation
 	function     func(int, int) int
 	defaultValue int
 }
@@ -24,7 +27,8 @@ func createSegmentTree(
 ) SegmentTree {
 	n := len(*input)
 	data := make([]int, 2*greaterOrEqualPowerOfTwo(n))
-	ST := SegmentTree{n, &data, f, defaultValue}
+	lazy := make([]int, 2*greaterOrEqualPowerOfTwo(n))
+	ST := SegmentTree{n, &data, &lazy, f, defaultValue}
 	ST._fill(
 		input, 0, n-1,
 		1,
@@ -59,6 +63,23 @@ func (this *SegmentTree) rangeQuery(left, right int) int {
 	)
 }
 
+func (this *SegmentTree) _propagate(
+	root int,
+	segmentLeft, segmentRight int,
+) {
+	if (*this.lazy)[root] == 0 {
+		return
+	}
+	increaseValue := (*this.lazy)[root]
+	(*this.lazy)[root] = 0
+	(*this.data)[root] += increaseValue
+	if segmentLeft < segmentRight {
+		leftChild, rightChild := 2*root, 2*root+1
+		(*this.lazy)[leftChild] += increaseValue
+		(*this.lazy)[rightChild] += increaseValue
+	}
+}
+
 func (this *SegmentTree) _recursiveRangeQuery(
 	queryLeft, queryRight int,
 	root int,
@@ -67,6 +88,8 @@ func (this *SegmentTree) _recursiveRangeQuery(
 	if queryRight < segmentLeft || segmentRight < queryLeft {
 		return this.defaultValue
 	}
+
+	this._propagate(root, segmentLeft, segmentRight)
 
 	if queryLeft <= segmentLeft && segmentRight <= queryRight {
 		return (*this.data)[root]
@@ -89,24 +112,41 @@ func (this *SegmentTree) _recursiveRangeQuery(
 	)
 }
 
-func (this *SegmentTree) elementUpdate(index int, newValue int) int {
-	return this._recursiveElementUpdate(
-		index, newValue,
+// not for sum function
+func (this *SegmentTree) rangeIncrease(left, right int, increaseValue int) int {
+	return this._recursiveRangeIncrease(
+		left, right, increaseValue,
 		1,
 		0, this.n-1,
 	)
 }
 
-func (this *SegmentTree) _recursiveElementUpdate(
-	index int, newValue int,
+func (this *SegmentTree) _delayPropagation(
+	increaseValue int,
+	root int,
+	segmentLeft, segmentRight int,
+) {
+	(*this.data)[root] += increaseValue
+	if segmentLeft < segmentRight {
+		leftChild, rightChild := 2*root, 2*root+1
+		(*this.lazy)[leftChild] += increaseValue
+		(*this.lazy)[rightChild] += increaseValue
+	}
+}
+
+func (this *SegmentTree) _recursiveRangeIncrease(
+	queryLeft, queryRight int, increaseValue int,
 	root int,
 	segmentLeft, segmentRight int,
 ) int {
-	if index < segmentLeft || segmentRight < index {
+	this._propagate(root, segmentLeft, segmentRight)
+
+	if queryRight < segmentLeft || segmentRight < queryLeft {
 		return (*this.data)[root]
 	}
-	if segmentLeft == index && index == segmentRight {
-		(*this.data)[root] = newValue
+
+	if queryLeft <= segmentLeft && segmentRight <= queryRight {
+		this._delayPropagation(increaseValue, root, segmentLeft, segmentRight)
 		return (*this.data)[root]
 	}
 
@@ -114,13 +154,13 @@ func (this *SegmentTree) _recursiveElementUpdate(
 	leftChild, rightChild := 2*root, 2*root+1
 
 	(*this.data)[root] = this.function(
-		this._recursiveElementUpdate(
-			index, newValue,
+		this._recursiveRangeIncrease(
+			queryLeft, queryRight, increaseValue,
 			leftChild,
 			segmentLeft, segmentMiddle,
 		),
-		this._recursiveElementUpdate(
-			index, newValue,
+		this._recursiveRangeIncrease(
+			queryLeft, queryRight, increaseValue,
 			rightChild,
 			segmentMiddle+1, segmentRight,
 		),
@@ -150,24 +190,26 @@ func main() {
 
 	fmt.Println("maxST")
 	maxST := createSegmentTree(&a, max, -2147483648)
-	maxST.elementUpdate(2, 15)
-	fmt.Println(maxST.data)
-	fmt.Println(maxST.rangeQuery(1, 3))
-	fmt.Println(maxST.rangeQuery(0, 0))
+	maxST.rangeIncrease(1, 3, 1)
+	fmt.Println(maxST.data, maxST.lazy)
+	fmt.Println(maxST.rangeQuery(0, 2))
+	fmt.Println(maxST.data, maxST.lazy)
+	fmt.Println(maxST.rangeQuery(3, 3))
+	fmt.Println(maxST.data, maxST.lazy)
 	fmt.Println("\n")
 
 	fmt.Println("minST")
 	minST := createSegmentTree(&a, min, 2147483647)
-	minST.elementUpdate(2, 15)
-	fmt.Println(minST.data)
-	fmt.Println(minST.rangeQuery(1, 3))
+	minST.rangeIncrease(1, 3, 1)
+	fmt.Println(minST.data, minST.lazy)
+	fmt.Println(minST.rangeQuery(1, 2))
+	fmt.Println(minST.rangeQuery(3, 4))
+	fmt.Println(minST.data, minST.lazy)
 	fmt.Println(minST.rangeQuery(0, 0))
 	fmt.Println("\n")
 
 	fmt.Println("sumST")
 	sumST := createSegmentTree(&a, sum, 0)
-	sumST.elementUpdate(2, 15)
-	fmt.Println(sumST.data)
 	fmt.Println(sumST.rangeQuery(1, 3))
 	fmt.Println(sumST.rangeQuery(0, 0))
 	fmt.Println(sumST.rangeQuery(0, 1))
