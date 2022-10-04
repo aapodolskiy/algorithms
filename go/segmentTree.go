@@ -151,6 +151,7 @@ func main() {
 	fmt.Println("maxST")
 	maxST := createSegmentTree(&a, max, -2147483648)
 	maxST.elementUpdate(2, 15)
+	maxST.elementUpdate(1, 11)
 	fmt.Println(maxST.data)
 	fmt.Println(maxST.rangeQuery(1, 3))
 	fmt.Println(maxST.rangeQuery(0, 0))
