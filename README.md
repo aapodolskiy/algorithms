@@ -11,7 +11,9 @@
   * [Stack](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/Stack/MyStack.go)
   * [Queue](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/Queue/MyStack.go)
   * [Deque](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/Deque/Deque.go)
-  * [Linked List](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/Stack/MyStack.go)
+  * Linked List
+    - [Linked List](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/LinkedList/MyLinkedList.go)
+    - [Doubly linked list](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/LinkedList/MyDoublyLinkedList.go)
   * [Heap](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/Heap)
   * Hash Table
 3. Basic Data Structures
