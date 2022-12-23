@@ -111,7 +111,7 @@ func (this *MyMaxPriorityQueue) Insert(object QueueObject, priority int) {
 }
 
 func (this *MyMaxPriorityQueue) String() string {
-	res := "priority queue: "
+	res := "max priority queue: "
 	for i := 0; i < this.size; i++ {
 		res += fmt.Sprintf("%v", (*this.objects)[i]) +
 			"[" + strconv.Itoa((*this.priorities)[i]) + "] "
@@ -119,7 +119,7 @@ func (this *MyMaxPriorityQueue) String() string {
 	return res
 }
 
-////////// MyMaxHeap implementation //////////
+////////// MyMaxPriorityQueue implementation
 //////////////////////////////////////////////
 
 func main() {
