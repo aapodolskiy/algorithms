@@ -5,51 +5,88 @@ import (
 )
 
 ////////////////////////////////
-// implementation of MyStack
+// implementation of MyTrie
 
-type MyStackElement string
-
-type MyStack struct {
-	a []MyStackElement
+type MyTrieInterface interface {
+	Insert(word string)
+	Search(word string) bool
+	StartsWith(prefix string) bool
 }
 
-func NewMyStack() MyStack {
-	return MyStack{make([]MyStackElement, 0)}
+type MyTrieNode struct {
+	children [26]*MyTrieNode
+	isFinal  bool
 }
 
-func (this *MyStack) Push(x MyStackElement) {
-	this.a = append(this.a, x)
+type MyTrie struct {
+	root *MyTrieNode
 }
 
-func (this *MyStack) Pop() MyStackElement {
-	l := len(this.a)
-	t := this.a[l-1]
-	this.a = this.a[:l-1]
-	return t
+func MyTrieConstructor() MyTrieInterface {
+	root := &MyTrieNode{[26]*MyTrieNode{}, false}
+	return &MyTrie{root}
 }
 
-func (this *MyStack) Peek() MyStackElement {
-	l := len(this.a)
-	return this.a[l-1]
+func _insertRecursive(node *MyTrieNode, word string) {
+	index := int(word[0] - 'a')
+	if node.children[index] == nil {
+		node.children[index] = &MyTrieNode{[26]*MyTrieNode{}, false}
+	}
+	if len(word) == 1 {
+		node.children[index].isFinal = true
+		return
+	}
+	_insertRecursive(node.children[index], word[1:])
 }
 
-func (this *MyStack) Size() int {
-	return len(this.a)
+func (this *MyTrie) Insert(word string) {
+	if len(word) > 0 {
+		_insertRecursive(this.root, word)
+	}
 }
 
-func (this *MyStack) Empty() bool {
-	return len(this.a) == 0
+func _searchRecursive(node *MyTrieNode, word string) bool {
+	index := int(word[0] - 'a')
+	if node.children[index] == nil {
+		return false
+	}
+	if len(word) == 1 {
+		return node.children[index].isFinal
+	}
+	return _searchRecursive(node.children[index], word[1:])
 }
 
-// end of MyStack implementation
+func (this *MyTrie) Search(word string) bool {
+	return _searchRecursive(this.root, word)
+}
+
+func _prefixSearchRecursive(node *MyTrieNode, prefix string) bool {
+	index := int(prefix[0] - 'a')
+	if node.children[index] == nil {
+		return false
+	}
+	if len(prefix) == 1 {
+		return true
+	}
+	return _prefixSearchRecursive(node.children[index], prefix[1:])
+}
+
+func (this *MyTrie) StartsWith(prefix string) bool {
+	return _prefixSearchRecursive(this.root, prefix)
+}
+
+// end of MyTrie implementation
 ////////////////////////////////
 
 func main() {
-	s := NewMyStack()
-	s.Push("1")
-	s.Push("two")
-	fmt.Println(s.Peek())
-	s.Pop()
-	fmt.Println(s.Size())
-	fmt.Println(s.Peek())
+	trie := MyTrieConstructor()
+	trie.Insert("a")
+	trie.Insert("abctest")
+	trie.Insert("xyzdskmk")
+	trie.Insert("abcklm")
+
+	fmt.Println("word", "\t", "trie.Search(word)", "\t", "trie.StartsWith(word)")
+	for _, word := range []string{"a", "aa", "ab", "abc", "x", "xyz", "xyzdskmk"} {
+		fmt.Println(word, "\t", trie.Search(word), "\t\t", trie.StartsWith(word))
+	}
 }
