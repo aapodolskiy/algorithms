@@ -21,7 +21,7 @@
 + Basic Data Structures
   * Piority Queue
     - [Min Piority Queue](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/PiorityQueue/MyMinPriorityQueue.go)
-    - [Max Piority Queue](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/PiorityQueue/MyMaxPriorityQueue)
+    - [Max Piority Queue](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/PiorityQueue/MyMaxPriorityQueue.go)
   * Binary Search Tree
   * [Segment Tree](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/SegmentTree)
   * Red-Black Tree
