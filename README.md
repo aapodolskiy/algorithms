@@ -14,10 +14,14 @@
   * Linked List
     - [Linked List](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/LinkedList/MyLinkedList.go)
     - [Doubly linked list](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/LinkedList/MyDoublyLinkedList.go)
-  * [Heap](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/Heap)
+  * Heap
+    - [MinHeap](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/Heap/MyMaxHeap.go)
+    - [MaxHeap](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/Heap/MyMinHeap.go)
   * Hash Table
 + Basic Data Structures
-  * [Piority Queue](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/PiorityQueue)
+  * Piority Queue
+    - [Min Piority Queue](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/PiorityQueue/MyMinPriorityQueue.go)
+    - [Max Piority Queue](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/PiorityQueue/MyMaxPriorityQueue)
   * Binary Search Tree
   * [Segment Tree](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/SegmentTree)
   * Red-Black Tree
