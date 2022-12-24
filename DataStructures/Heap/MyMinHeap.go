@@ -10,6 +10,7 @@ import (
 
 type MyMinHeapInterface interface {
 	Empty() bool
+	GetSize() int
 	GetMin() int
 	ExtractMin() int
 	Insert(int)
@@ -28,6 +29,10 @@ func MyMinHeapConstructor() MyMinHeapInterface {
 
 func (this *MyMinHeap) Empty() bool {
 	return this.size == 0
+}
+
+func (this *MyMinHeap) GetSize() int {
+	return this.size
 }
 
 func (this *MyMinHeap) GetMin() int {
@@ -60,7 +65,7 @@ func (this *MyMinHeap) _left(i int) int {
 	return 2*(i+1) - 1
 }
 func (this *MyMinHeap) _right(i int) int {
-	return 2*(i+1)
+	return 2 * (i + 1)
 }
 func (this *MyMinHeap) _parent(i int) int {
 	return (i+1)/2 - 1
@@ -68,7 +73,6 @@ func (this *MyMinHeap) _parent(i int) int {
 func (this *MyMinHeap) _swap(i, j int) {
 	(*this.keys)[i], (*this.keys)[j] = (*this.keys)[j], (*this.keys)[i]
 }
-
 func (this *MyMinHeap) _minHeapify(i int) {
 	l, r := this._left(i), this._right(i)
 	smallest := i
@@ -101,7 +105,7 @@ func main() {
 	h.Insert(1)
 	h.Insert(5)
 	fmt.Println(h.GetMin())
-	fmt.Println(h.ExtractMin())
+	fmt.Println(h.GetSize(), h.ExtractMin(), h.GetSize())
 	h.Insert(7)
 	h.Insert(7)
 	h.Insert(17)

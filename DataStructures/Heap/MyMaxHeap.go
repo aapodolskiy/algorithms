@@ -10,6 +10,7 @@ import (
 
 type MyMaxHeapInterface interface {
 	Empty() bool
+	GetSize() int
 	GetMax() int
 	ExtractMax() int
 	Insert(int)
@@ -28,6 +29,10 @@ func MyMaxHeapConstructor() MyMaxHeapInterface {
 
 func (this *MyMaxHeap) Empty() bool {
 	return this.size == 0
+}
+
+func (this *MyMaxHeap) GetSize() int {
+	return this.size
 }
 
 func (this *MyMaxHeap) GetMax() int {
@@ -60,7 +65,7 @@ func (this *MyMaxHeap) _left(i int) int {
 	return 2*(i+1) - 1
 }
 func (this *MyMaxHeap) _right(i int) int {
-	return 2*(i+1)
+	return 2 * (i + 1)
 }
 func (this *MyMaxHeap) _parent(i int) int {
 	return (i+1)/2 - 1
@@ -68,7 +73,6 @@ func (this *MyMaxHeap) _parent(i int) int {
 func (this *MyMaxHeap) _swap(i, j int) {
 	(*this.keys)[i], (*this.keys)[j] = (*this.keys)[j], (*this.keys)[i]
 }
-
 func (this *MyMaxHeap) _maxHeapify(i int) {
 	l, r := this._left(i), this._right(i)
 	largest := i
@@ -104,7 +108,7 @@ func main() {
 	h.Insert(27)
 	h.Insert(17)
 	h.Insert(17)
-	fmt.Println(h.ExtractMax())
+	fmt.Println(h.GetSize(), h.ExtractMax(), h.GetSize())
 	h.Insert(10)
 	fmt.Println(h)
 }

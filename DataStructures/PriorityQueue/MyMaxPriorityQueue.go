@@ -14,6 +14,7 @@ type QueueObject struct {
 
 type MyMaxPriorityQueueInterface interface {
 	IsEmpty() bool
+	GetSize() int
 	Insert(object QueueObject, priority int)
 	GetObjectWithHighestPriority() QueueObject
 	GetHighestPriority() int
@@ -26,35 +27,6 @@ type MyMaxPriorityQueue struct {
 	size       int
 }
 
-func (this *MyMaxPriorityQueue) _left(i int) int {
-	return 2*(i+1) - 1
-}
-func (this *MyMaxPriorityQueue) _right(i int) int {
-	return 2 * (i + 1)
-}
-func (this *MyMaxPriorityQueue) _parent(i int) int {
-	return (i+1)/2 - 1
-}
-func (this *MyMaxPriorityQueue) _swap(i, j int) {
-	(*this.objects)[i], (*this.objects)[j] = (*this.objects)[j], (*this.objects)[i]
-	(*this.priorities)[i], (*this.priorities)[j] = (*this.priorities)[j], (*this.priorities)[i]
-}
-
-func (this *MyMaxPriorityQueue) _maxHeapify(i int) {
-	l, r := this._left(i), this._right(i)
-	largest := i
-	if l < this.size && (*this.priorities)[largest] < (*this.priorities)[l] {
-		largest = l
-	}
-	if r < this.size && (*this.priorities)[largest] < (*this.priorities)[r] {
-		largest = r
-	}
-	if largest != i {
-		this._swap(i, largest)
-		this._maxHeapify(largest)
-	}
-}
-
 func MyMaxPriorityQueueConstructor() MyMaxPriorityQueueInterface {
 	size := 0
 	objects := make([]QueueObject, size)
@@ -64,6 +36,10 @@ func MyMaxPriorityQueueConstructor() MyMaxPriorityQueueInterface {
 
 func (this *MyMaxPriorityQueue) IsEmpty() bool {
 	return this.size == 0
+}
+
+func (this *MyMaxPriorityQueue) GetSize() int {
+	return this.size
 }
 
 func (this *MyMaxPriorityQueue) GetObjectWithHighestPriority() QueueObject {
@@ -110,6 +86,34 @@ func (this *MyMaxPriorityQueue) Insert(object QueueObject, priority int) {
 	this.size++
 }
 
+func (this *MyMaxPriorityQueue) _left(i int) int {
+	return 2*(i+1) - 1
+}
+func (this *MyMaxPriorityQueue) _right(i int) int {
+	return 2 * (i + 1)
+}
+func (this *MyMaxPriorityQueue) _parent(i int) int {
+	return (i+1)/2 - 1
+}
+func (this *MyMaxPriorityQueue) _swap(i, j int) {
+	(*this.objects)[i], (*this.objects)[j] = (*this.objects)[j], (*this.objects)[i]
+	(*this.priorities)[i], (*this.priorities)[j] = (*this.priorities)[j], (*this.priorities)[i]
+}
+func (this *MyMaxPriorityQueue) _maxHeapify(i int) {
+	l, r := this._left(i), this._right(i)
+	largest := i
+	if l < this.size && (*this.priorities)[largest] < (*this.priorities)[l] {
+		largest = l
+	}
+	if r < this.size && (*this.priorities)[largest] < (*this.priorities)[r] {
+		largest = r
+	}
+	if largest != i {
+		this._swap(i, largest)
+		this._maxHeapify(largest)
+	}
+}
+
 func (this *MyMaxPriorityQueue) String() string {
 	res := "max priority queue: "
 	for i := 0; i < this.size; i++ {
@@ -131,8 +135,8 @@ func main() {
 	pq.Insert(QueueObject{"seven"}, 7)
 	pq.Insert(QueueObject{"seventeen"}, 17)
 	pq.Insert(QueueObject{"one more seventeen"}, 17)
-	fmt.Println(pq)
-	fmt.Println(pq.ExtractObjectWithHighestPriority())
+	fmt.Println(pq.GetSize(), pq)
+	fmt.Println(pq.ExtractObjectWithHighestPriority(), pq.GetSize())
 	pq.Insert(QueueObject{"ten"}, 10)
 	fmt.Println(pq)
 }
