@@ -14,6 +14,7 @@ type QueueObject struct {
 
 type MyMinPriorityQueueInterface interface {
 	IsEmpty() bool
+	GetSize() int
 	Insert(object QueueObject, priority int)
 	GetObjectWithLowestPriority() QueueObject
 	GetLowestPriority() int
@@ -26,35 +27,6 @@ type MyMinPriorityQueue struct {
 	size       int
 }
 
-func (this *MyMinPriorityQueue) _left(i int) int {
-	return 2*(i+1) - 1
-}
-func (this *MyMinPriorityQueue) _right(i int) int {
-	return 2 * (i + 1)
-}
-func (this *MyMinPriorityQueue) _parent(i int) int {
-	return (i+1)/2 - 1
-}
-func (this *MyMinPriorityQueue) _swap(i, j int) {
-	(*this.objects)[i], (*this.objects)[j] = (*this.objects)[j], (*this.objects)[i]
-	(*this.priorities)[i], (*this.priorities)[j] = (*this.priorities)[j], (*this.priorities)[i]
-}
-
-func (this *MyMinPriorityQueue) _minHeapify(i int) {
-	l, r := this._left(i), this._right(i)
-	smallest := i
-	if l < this.size && (*this.priorities)[l] < (*this.priorities)[smallest] {
-		smallest = l
-	}
-	if r < this.size && (*this.priorities)[r] < (*this.priorities)[smallest] {
-		smallest = r
-	}
-	if smallest != i {
-		this._swap(i, smallest)
-		this._minHeapify(smallest)
-	}
-}
-
 func MyMinPriorityQueueConstructor() MyMinPriorityQueueInterface {
 	size := 0
 	objects := make([]QueueObject, size)
@@ -64,6 +36,10 @@ func MyMinPriorityQueueConstructor() MyMinPriorityQueueInterface {
 
 func (this *MyMinPriorityQueue) IsEmpty() bool {
 	return this.size == 0
+}
+
+func (this *MyMinPriorityQueue) GetSize() int {
+	return this.size
 }
 
 func (this *MyMinPriorityQueue) GetObjectWithLowestPriority() QueueObject {
@@ -110,6 +86,34 @@ func (this *MyMinPriorityQueue) Insert(object QueueObject, priority int) {
 	this.size++
 }
 
+func (this *MyMinPriorityQueue) _left(i int) int {
+	return 2*(i+1) - 1
+}
+func (this *MyMinPriorityQueue) _right(i int) int {
+	return 2 * (i + 1)
+}
+func (this *MyMinPriorityQueue) _parent(i int) int {
+	return (i+1)/2 - 1
+}
+func (this *MyMinPriorityQueue) _swap(i, j int) {
+	(*this.objects)[i], (*this.objects)[j] = (*this.objects)[j], (*this.objects)[i]
+	(*this.priorities)[i], (*this.priorities)[j] = (*this.priorities)[j], (*this.priorities)[i]
+}
+func (this *MyMinPriorityQueue) _minHeapify(i int) {
+	l, r := this._left(i), this._right(i)
+	smallest := i
+	if l < this.size && (*this.priorities)[l] < (*this.priorities)[smallest] {
+		smallest = l
+	}
+	if r < this.size && (*this.priorities)[r] < (*this.priorities)[smallest] {
+		smallest = r
+	}
+	if smallest != i {
+		this._swap(i, smallest)
+		this._minHeapify(smallest)
+	}
+}
+
 func (this *MyMinPriorityQueue) String() string {
 	res := "min priority queue: "
 	for i := 0; i < this.size; i++ {
@@ -131,8 +135,8 @@ func main() {
 	pq.Insert(QueueObject{"seven"}, 7)
 	pq.Insert(QueueObject{"seventeen"}, 17)
 	pq.Insert(QueueObject{"one more seventeen"}, 17)
-	fmt.Println(pq)
-	fmt.Println(pq.ExtractObjectWithLowestPriority())
+	fmt.Println(pq.GetSize(), pq)
+	fmt.Println(pq.ExtractObjectWithLowestPriority(), pq.GetSize())
 	pq.Insert(QueueObject{"ten"}, 10)
 	fmt.Println(pq)
 }
