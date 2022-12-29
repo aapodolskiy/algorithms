@@ -26,7 +26,7 @@
 * Linked List
   - [Linked List](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/LinkedList/MyLinkedList.go)
   - [Doubly linked list](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/LinkedList/MyDoublyLinkedList.go)
-* Heap
+* [Heap](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/Heap/)
   - [MinHeap](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/Heap/MyMinHeap.go)
   - [MaxHeap](https://github.com/aapodolskiy/algorithms/tree/master/DataStructures/Heap/MyMaxHeap.go)
 * Hash Table
