@@ -31,9 +31,9 @@ func main() {
 		[2]int{2 * 3 * 7 * 12192, 7 * 9 * 33120},
 	}
 
-	fmt.Println("a", "\t", "b", "\t", "gcd")
+	fmt.Println("a", "\t\t", "b", "\t\t", "gcd")
 	for _, test := range tests {
 		a, b := test[0], test[1]
-		fmt.Println(a, "\t", b, "\t", gcd(a, b))
+		fmt.Println(a, "\t\t", b, "\t\t", gcd(a, b))
 	}
 }
